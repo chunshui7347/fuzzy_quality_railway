@@ -1,55 +1,103 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import skfuzzy as fuzz
+from utils import plot
 
-food = service = np.arange(0,11,1)
-tip = np.arange(0,25.1,0.1)
-bad=fuzz.trimf(food, [0,0,5])
-descent=fuzz.trimf(food, [0,5,10])
-great=fuzz.trimf(food, [5,10,10])
-poor=fuzz.trimf(service, [0,0,5])
-acceptable=fuzz.trimf(service, [0,5,10])
-amazing=fuzz.trimf(service, [5,10,10])
-low=fuzz.trimf(tip, [0,0,12.5])
-medium=fuzz.trimf(tip, [0,12.5,25])
-high=fuzz.trimf(tip, [12.5,25,25])
+if __name__ == '__main__':
+    # initialize the membership graph
+    cleanness = np.arange(1,11)
+    price = np.arange(0.00,5.01,0.01)
+    frequency = np.arange(1,31)
+    quality = np.arange(1,11)
 
-## Rule 1: If the food is bad, then the tip is low
-is_bad = fuzz.interp_membership(food, bad, 6)
-fire_rule1 = is_bad
-## Rule 2: If the service is acceptable, then the tip is medium
-is_acceptable = fuzz.interp_membership(service, acceptable, 8)
-fire_rule2 = is_acceptable
-## Rule 3: If the food is great AND the service is amazing, then the tip is high
-is_great = fuzz.interp_membership(food, great, 6)
-is_amazing = fuzz.interp_membership(service, amazing, 8)
-fire_rule3 = min(is_great,is_amazing)
-rule1_clip = np.fmin(fire_rule1,low)
-rule2_clip = np.fmin(fire_rule2,medium)
-rule3_clip = np.fmin(fire_rule3,high)
+    dirty=fuzz.trimf(cleanness, [1,1,5])
+    normal=fuzz.trimf(cleanness, [1,5,10])
+    clean=fuzz.trimf(cleanness, [5,10,10])
 
-######### Aggregate the rules #########
-temp = np.fmax(rule1_clip,rule2_clip)
-fuzzy_output = np.fmax(temp,rule3_clip)
-######### Defuzzification #########
-tip_to_pay = fuzz.defuzz(tip, fuzzy_output, 'centroid')
-print ('the tip to pay is RM', tip_to_pay)
-# expected output : RM 12.853535353535325
+    cheap=fuzz.trimf(price, [0,0,2.5])
+    reasonable=fuzz.trimf(price, [0,2.5,5])
+    expensive=fuzz.trimf(price, [2.5,5,5])
 
-tip_activation = fuzz.interp_membership(tip, fuzzy_output, tip_to_pay)
-tip0 = np.zeros_like(tip)
-fig, ax0 = plt.subplots(figsize=(8, 3))
-ax0.plot(tip, low, 'b', linewidth=1.5, linestyle='--', )
-ax0.plot(tip, medium, 'g', linewidth=1.5, linestyle='--')
-ax0.plot(tip, high, 'r', linewidth=1.5, linestyle='--')
-ax0.fill_between(tip, tip0, fuzzy_output, facecolor='Orange', alpha=0.5)
-ax0.plot([tip_to_pay, tip_to_pay], [0, tip_activation], 'k', linewidth=2.5,
-alpha=0.9)
-ax0.get_xaxis().tick_bottom()
-ax0.get_yaxis().tick_left()
-ax0.set_xlim([min(tip),max(tip)])
-ax0.set_ylim([0,1])
-plt.xlabel('tip')
-plt.ylabel('membership degree')
-plt.title('Tipping problem')
-plt.show()
+    less=fuzz.trimf(frequency, [1,1,10])
+    enough=fuzz.trapmf(frequency, [5,10,20,25])
+    many=fuzz.trimf(frequency, [20,30,30])
+
+    low=fuzz.trimf(quality, [1,1,5])
+    medium=fuzz.trimf(quality, [1,5,10])
+    high=fuzz.trimf(quality, [5,10,10])
+
+    plot.plot_graph(cleanness,dirty,normal,clean, 'cleanness', 'membership function')
+    plot.plot_graph(price, cheap, reasonable, expensive, 'price', 'membership function')
+    plot.plot_graph(frequency, less, enough, many, 'frequency', 'membership function')
+    plot.plot_graph(quality, low, medium, high, 'quality', 'membership function')
+
+    test_frequency = 25
+    test_cleanness = 10
+    test_expensive = 0.20
+
+    # Rule 1: If the frequency is less the quality is low
+    rule_1_less = fuzz.interp_membership(frequency, less, test_frequency)
+    fire_rule1 = rule_1_less
+
+    # Rule 2: If the cleanness is dirty the quality is low
+    rule_2_dirty = fuzz.interp_membership(cleanness, dirty, test_cleanness)
+    fire_rule2 = rule_2_dirty
+
+    # Rule 3: If frequency is enough, cleanness is clean, then quality is medium
+    rule_3_medium = fuzz.interp_membership(frequency, enough, test_frequency)
+    rule_3_good = fuzz.interp_membership(cleanness, clean, test_cleanness)
+    fire_rule3 = min(rule_3_medium, rule_3_good)
+
+    # Rule 4: If frequency is many, pricing is expensive, then quality is medium
+    rule_4_many = fuzz.interp_membership(frequency, many, test_frequency)
+    rule_4_expensive = fuzz.interp_membership(price, expensive, test_expensive)
+    fire_rule4 = min(rule_4_many, rule_4_expensive)
+
+    # Rule 5: If frequency is many, cleanness is clean, price is cheap, then quality is high
+    rule_5_many = fuzz.interp_membership(frequency, many, test_frequency)
+    rule_5_expensive = fuzz.interp_membership(price, cheap, test_expensive)
+    rule_5_clean = fuzz.interp_membership(cleanness, clean, test_cleanness)
+    fire_rule5 = min(rule_5_many, rule_5_expensive,rule_5_clean)
+
+    # Rule 6: If frequency is less, cleanness is normal, price is expensive, then quality is poor
+    rule_6_less = fuzz.interp_membership(frequency, less, test_expensive)
+    rule_6_expensive = fuzz.interp_membership(price, expensive, test_expensive)
+    rule_6_clean = fuzz.interp_membership(cleanness, normal, test_cleanness)
+    fire_rule6 = min(rule_6_less, rule_6_expensive,rule_6_clean)
+
+    rule1_clip = np.fmin(fire_rule1, low)
+    rule2_clip = np.fmin(fire_rule2, low)
+    rule3_clip = np.fmin(fire_rule3, medium)
+    rule4_clip = np.fmin(fire_rule4, medium)
+    rule5_clip = np.fmin(fire_rule5, high)
+    rule6_clip = np.fmin(fire_rule6, medium)
+
+    # Aggregate the rules #
+    temp1 = np.fmax(rule1_clip, rule2_clip)
+    temp2 = np.fmax(temp1, rule3_clip)
+    temp3 = np.fmax(temp2, rule4_clip)
+    temp4 = np.fmax(temp3, rule5_clip)
+    fuzzy_output = np.fmax(temp4, rule6_clip)
+
+    ######### Defuzzification #########
+    quality_predict = fuzz.defuzz(quality, fuzzy_output, 'centroid')
+    print ('the quality is', quality_predict)
+
+    quality_activation = fuzz.interp_membership(quality, fuzzy_output, quality_predict)
+    quality0 = np.zeros_like(quality)
+    fig, ax0 = plt.subplots(figsize=(8, 3))
+    ax0.plot(quality, low, 'b', linewidth=1.5, linestyle='--', )
+    ax0.plot(quality, medium, 'g', linewidth=1.5, linestyle='--')
+    ax0.plot(quality, high, 'r', linewidth=1.5, linestyle='--')
+    ax0.fill_between(quality, quality0, fuzzy_output, facecolor='Orange', alpha=0.5)
+    ax0.plot([quality_predict, quality_predict], [0, quality_activation], 'k', linewidth=2.5,
+    alpha=0.9)
+    ax0.get_xaxis().tick_bottom()
+    ax0.get_yaxis().tick_left()
+    ax0.set_xlim([min(quality),max(quality)])
+    ax0.set_ylim([0,1])
+    plt.xlabel('tip')
+    plt.ylabel('membership degree')
+    plt.title('Tipping problem')
+    plt.show()
+
