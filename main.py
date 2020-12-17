@@ -20,8 +20,8 @@ if __name__ == '__main__':
     expensive=fuzz.trimf(price, [2.5,5,5])
 
     less=fuzz.trimf(frequency, [1,1,10])
-    enough=fuzz.trapmf(frequency, [5,10,20,25])
-    many=fuzz.trimf(frequency, [20,30,30])
+    enough=fuzz.trapmf(frequency, [5,10,15,20])
+    many=fuzz.trapmf(frequency, [12,20,30,30])
 
     low=fuzz.trimf(quality, [1,1,5])
     medium=fuzz.trimf(quality, [1,5,10])
