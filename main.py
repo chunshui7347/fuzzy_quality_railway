@@ -33,9 +33,10 @@ if __name__ == '__main__':
     plot.plot_graph(frequency, less, enough, many, 'frequency', 'membership function')
     plot.plot_graph(quality, low, medium, high, 'quality', 'membership function')
 
-    test_frequency = int(input('What are the frequency?'))
-    test_cleanness = int(input('What are the cleanness?'))
+    # user input for testing
     test_expensive = float(input('What are the price?'))
+    test_frequency = 60/int(input('What are the frequency?'))
+    test_cleanness = int(input('What are the cleanness?'))
 
     # Rule 1: If the frequency is less the quality is low
     rule_1_less = fuzz.interp_membership(frequency, less, test_frequency)
