@@ -4,6 +4,7 @@ import skfuzzy as fuzz
 from utils import plot
 
 if __name__ == '__main__':
+
     # initialize the membership graph
     cleanness = np.arange(1,11)
     price = np.arange(0.00,5.01,0.01)
@@ -26,14 +27,15 @@ if __name__ == '__main__':
     medium=fuzz.trimf(quality, [1,5,10])
     high=fuzz.trimf(quality, [5,10,10])
 
+    # graph plotting
     plot.plot_graph(cleanness,dirty,normal,clean, 'cleanness', 'membership function')
     plot.plot_graph(price, cheap, reasonable, expensive, 'price', 'membership function')
     plot.plot_graph(frequency, less, enough, many, 'frequency', 'membership function')
     plot.plot_graph(quality, low, medium, high, 'quality', 'membership function')
 
-    test_frequency = 25
-    test_cleanness = 10
-    test_expensive = 0.20
+    test_frequency = int(input('What are the frequency?'))
+    test_cleanness = int(input('What are the cleanness?'))
+    test_expensive = float(input('What are the price?'))
 
     # Rule 1: If the frequency is less the quality is low
     rule_1_less = fuzz.interp_membership(frequency, less, test_frequency)
@@ -79,7 +81,7 @@ if __name__ == '__main__':
     temp4 = np.fmax(temp3, rule5_clip)
     fuzzy_output = np.fmax(temp4, rule6_clip)
 
-    ######### Defuzzification #########
+    # Defuzzification #
     quality_predict = fuzz.defuzz(quality, fuzzy_output, 'centroid')
     print ('the quality is', quality_predict)
 
@@ -90,14 +92,13 @@ if __name__ == '__main__':
     ax0.plot(quality, medium, 'g', linewidth=1.5, linestyle='--')
     ax0.plot(quality, high, 'r', linewidth=1.5, linestyle='--')
     ax0.fill_between(quality, quality0, fuzzy_output, facecolor='Orange', alpha=0.5)
-    ax0.plot([quality_predict, quality_predict], [0, quality_activation], 'k', linewidth=2.5,
-    alpha=0.9)
+    ax0.plot([quality_predict, quality_predict], [0, quality_activation], 'k', linewidth=2.5, alpha=0.9)
     ax0.get_xaxis().tick_bottom()
     ax0.get_yaxis().tick_left()
     ax0.set_xlim([min(quality),max(quality)])
     ax0.set_ylim([0,1])
     plt.xlabel('tip')
     plt.ylabel('membership degree')
-    plt.title('Tipping problem')
+    plt.title('Quality problem')
     plt.show()
 
