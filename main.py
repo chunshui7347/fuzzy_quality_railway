@@ -98,7 +98,7 @@ if __name__ == '__main__':
     ax0.get_yaxis().tick_left()
     ax0.set_xlim([min(quality),max(quality)])
     ax0.set_ylim([0,1])
-    plt.xlabel('tip')
+    plt.xlabel('Quality')
     plt.ylabel('membership degree')
     plt.title('Quality problem')
     plt.show()
