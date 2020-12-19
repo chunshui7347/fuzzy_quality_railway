@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     # user input for testing
     test_expensive = float(input('What are the price?'))
-    test_frequency = 60/int(input('What are the frequency?'))
+    test_frequency = 60/int(input('How long is train schedule?'))
     test_cleanness = int(input('What are the cleanness?'))
 
     # Rule 1: If the frequency is less the quality is low
