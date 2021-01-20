@@ -207,7 +207,7 @@ for i in range(len(file)):
     rate_system.input['price'] = price_list[i]
     rate_system.input['frequency'] = frequency_list[i]
 
-    # defuzzification using centre of gravity"
+    # defuzzification using centre of gravity
     try:
         rate_system.compute()
         score = rate_system.output['quality']
