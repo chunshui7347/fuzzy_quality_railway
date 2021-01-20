@@ -1,0 +1,7 @@
+price,time,frequency,cleanness,rating,rate_class,predicted_class,predicted_rating
+0.6,3,20,6,8,high,medium,5.334439859391717
+4.0,30,2,3,5,medium,medium,5.034675615212529
+3.0,5,12,8,6,medium,medium,5.371428571428571
+3.5,20,3,9,5,medium,medium,5.254901960784314
+1.5,5,12,4,3,low,medium,5.408333333333333
+0.5,30,2,9,3,low,low,2.807407407407407

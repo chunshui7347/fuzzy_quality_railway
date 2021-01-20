@@ -1,0 +1,15 @@
+,cleanness_dirty,cleanness_normal,cleanness_clean,cleanness_max,cleanness_max_string,price_cheap,price_reasonable,price_expensive,price_max,price_max_string,frequency_less,frequency_enough,frequency_many,frequency_max,frequency_max_string,degree,output
+0,0.0,0.2,0.8,0.8,clean,0.6,0.4,0.0,0.6,cheap,0.0,1.0,0.38,1.0,enough,0.48,medium
+1,0.25,0.75,0.0,0.75,normal,0.0,0.4,0.6,0.6,expensive,0.78,0.0,0.0,0.78,less,0.35,medium
+2,0.25,0.75,0.0,0.75,normal,0.0,1.0,0.0,1.0,reasonable,0.0,0.0,1.0,1.0,many,0.75,low
+3,0.0,0.6,0.4,0.6,normal,0.6,0.4,0.0,0.6,cheap,0.67,0.0,0.0,0.67,less,0.24,low
+4,0.0,0.2,0.8,0.8,clean,0.2,0.8,0.0,0.8,reasonable,0.0,1.0,0.0,1.0,enough,0.64,medium
+5,0.0,0.6,0.4,0.6,normal,0.0,0.8,0.2,0.8,reasonable,0.44,0.2,0.0,0.44,less,0.21,medium
+6,0.0,0.8,0.2,0.8,normal,0.2,0.8,0.0,0.8,reasonable,0.89,0.0,0.0,0.89,less,0.57,low
+7,0.0,0.2,0.8,0.8,clean,0.2,0.8,0.0,0.8,reasonable,0.0,0.0,1.0,1.0,many,0.64,high
+8,0.0,0.2,0.8,0.8,clean,0.8,0.2,0.0,0.8,cheap,0.0,0.0,1.0,1.0,many,0.64,high
+9,0.25,0.75,0.0,0.75,normal,0.68,0.32,0.0,0.68,cheap,0.0,1.0,0.0,1.0,enough,0.51,low
+10,0.0,1.0,0.0,1.0,normal,0.0,0.8,0.2,0.8,reasonable,0.67,0.0,0.0,0.67,less,0.54,medium
+11,0.0,0.6,0.4,0.6,normal,0.0,1.0,0.0,1.0,reasonable,0.67,0.0,0.0,0.67,less,0.4,low
+12,0.0,0.6,0.4,0.6,normal,0.0,1.0,0.0,1.0,reasonable,0.67,0.0,0.0,0.67,less,0.4,low
+13,0.0,0.6,0.4,0.6,normal,0.0,0.8,0.2,0.8,reasonable,0.44,0.2,0.0,0.44,less,0.21,low

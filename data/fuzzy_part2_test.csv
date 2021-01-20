@@ -1,0 +1,7 @@
+price,time,frequency,cleanness,rating,rate_class
+0.6,3,20,6,8,high
+4,30,2,3,5,medium
+3,5,12,8,6,medium
+3.5,20,3,9,5,medium
+1.5,5,12,4,3,low
+0.5,30,2,9,3,low
